@@ -2,9 +2,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.db.models import Q
-
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.urls import reverse_lazy
 
@@ -23,39 +21,12 @@ from .forms import (
 
 @login_required
 def index(request):
-    #  main_page
-
-    #  Full date now
-    now = timezone.now()
-    current_month = now.month
-    current_year = now.year
-
-    #  Done task in this month
-    tasks_done_this_month = Task.objects.filter(
-        is_done=True,
-        deadline__year=current_year,
-        deadline__month=current_month,
+    tasks = Task.objects.all().prefetch_related("tags").order_by(
+        "is_done",
+        "-created_at"
     )
 
-    #  Full statistics
-    num_tasks_total = Task.objects.count()
-    num_tasks_done = Task.objects.filter(is_done=True).count()
-    num_tasks_pending = Task.objects.filter(is_done=False).count()
-
-    #  Visits
-    num_visits = request.session.get("num_visits", 0)
-    request.session["num_visits"] = num_visits + 1
-
-    context = {
-        "num_tasks_total": num_tasks_total,
-        "num_tasks_done": num_tasks_done,
-        "num_tasks_pending": num_tasks_pending,
-        "tasks_done_this_month": tasks_done_this_month,
-        "current_month": now.strftime("%B"),
-        "num_visits": num_visits + 1,
-    }
-
-    return render(request, "todo/index.html", context)
+    return render(request, "todo/index.html", {"tasks": tasks})
 
 
 #  Tasks
@@ -71,15 +42,12 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = super().get_queryset().select_related(
-            "tags")
+        queryset = Task.objects.all().prefetch_related("tags")
         query = self.request.GET.get("q")
         if query:
-            queryset = queryset.filter(
-                Q(name__icontains=query) |
-                Q(description__icontains=query)
-            )
-        return queryset.order_by("id")
+            queryset = queryset.filter(content__icontains=query)
+
+        return queryset.order_by("is_done", "-created_at")
 
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
@@ -139,3 +107,11 @@ class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
 class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("todo:tag-list")
+
+
+@login_required
+def toggle_status(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.is_done = not task.is_done
+    task.save()
+    return redirect("todo:task-list")
