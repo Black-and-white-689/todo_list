@@ -4,12 +4,12 @@ from django.db import models
 class Task(models.Model):
     name = models.CharField(
         max_length=255,
-        verbose_name="Task_name"
+        verbose_name="Task name"
     )
     content = models.TextField(
         blank=True,
         null=True,
-        verbose_name="Task_content"
+        verbose_name="Task content"
     )
     created_at = models.DateTimeField(
         auto_now_add=True
@@ -35,7 +35,7 @@ class Task(models.Model):
 class Tag(models.Model):
     name = models.CharField(
         max_length=255,
-        verbose_name="Tag_name"
+        verbose_name="Tag name"
     )
 
     def __str__(self):
