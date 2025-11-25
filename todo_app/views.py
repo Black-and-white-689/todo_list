@@ -6,6 +6,8 @@ from django.db.models import Q
 
 from django.shortcuts import render
 
+from django.urls import reverse_lazy
+
 from django.views import generic
 
 from .models import Task, Tag
@@ -78,3 +80,25 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
                 Q(description__icontains=query)
             )
         return queryset.order_by("id")
+
+
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Task
+    template_name = "todo/task_detail.html"
+
+
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("todo:task-list")
+
+
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("todo:task-list")
+
+
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Task
+    success_url = reverse_lazy("todo:task-list")
