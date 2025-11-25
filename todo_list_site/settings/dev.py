@@ -1,0 +1,18 @@
+from .base import *
+
+
+DEBUG = config('DEBUG', default=True, cast=bool)
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "localhost:85",
+    "127.0.0.1",
+    config("SERVER", default="127.0.0.1"),
+]
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
