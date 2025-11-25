@@ -102,3 +102,23 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     success_url = reverse_lazy("todo:task-list")
+
+
+#  Task_types
+class TagListView(LoginRequiredMixin, generic.ListView):
+    model = Tag
+    template_name = "todo/tag_list.html"
+    context_object_name = "tag_list"
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = TagSearchForm(self.request.GET)
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        return queryset.order_by("id")
