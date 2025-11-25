@@ -33,10 +33,20 @@ class Task(models.Model):
         verbose_name="Priority"
     )
     tags = models.ManyToManyField(
-        Tag,
+        "Tag",
         related_name="tasks",
         verbose_name="tags",
     )
 
     def __str__(self):
         return f"{self.name} ({'Is done' if self.is_done else 'In progress'})"
+
+
+class Tag(models.Model):
+    name = models.CharField(
+        max_length=255,
+        verbose_name="Tag_name"
+    )
+
+    def __str__(self):
+        return self.name
