@@ -12,8 +12,8 @@ CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = config("SECRET_KEY")
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-0hd$x8t!$7v+q=9656h8qk35a_ap%m7m!imrvj+4w&-u1y0gf^")
 
-DEBUG = config('DEBUG', default=True, cast=bool)
-# DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
+# DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "odo_list_site.urls"
+ROOT_URLCONF = "todo_list_site.urls"
 
 TEMPLATES = [
     {
@@ -127,8 +127,6 @@ LOGOUT_REDIRECT_URL = 'login'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-
-AUTH_USER_MODEL = "todo_app.Worker"
 
 INTERNAL_IPS = [
     "127.0.0.1",

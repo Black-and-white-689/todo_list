@@ -1,7 +1,8 @@
 from .base import *
 
 
-DEBUG = False
+# DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
 ALLOWED_HOSTS = [
     "todo_list.onrender.com",
