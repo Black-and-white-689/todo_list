@@ -122,3 +122,20 @@ class TagListView(LoginRequiredMixin, generic.ListView):
         if query:
             queryset = queryset.filter(name__icontains=query)
         return queryset.order_by("id")
+
+
+class TagCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Tag
+    fields = "__all__"
+    success_url = reverse_lazy("todo:tag-list")
+
+
+class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Tag
+    fields = "__all__"
+    success_url = reverse_lazy("todo:tag-list")
+
+
+class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Tag
+    success_url = reverse_lazy("todo:tag-list")
