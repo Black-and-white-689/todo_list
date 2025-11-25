@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Tags{% endblock title %}
+
+{% block content %}
+<section class="py-5 mt-7">
+  <div class="container">
+
+    <div class="row mb-4">
+      <div class="col-lg-8 col-md-10 mx-auto text-center">
+        <h2 class="text-gradient text-info">Tags</h2>
+      </div>
+    </div>
+
+    <div class="card shadow-lg">
+      <div class="card-body">
+
+        <form method="get" class="row g-2 mb-4 align-items-center">
+          <div
+              class="col-md-8 d-flex align-items-center justify-content-start">
+            {% load crispy_forms_tags %}
+            {{ search_form.q|as_crispy_field }}
+          </div>
+          <div class="col-md-4 text-end">
+            <button
+                class="btn btn-primary"
+                type="submit"
+                style="font-size: 0.95rem; font-weight: 550;">
+              <i class="fas fa-search"></i> Search
+            </button>
+            <a
+                href="{% url 'todo:tag-create' %}"
+                class="btn btn-primary"
+                style="font-size: 0.95rem; font-weight: 550;">
+              [+ Add Tag]
+            </a>
+          </div>
+        </form>
+
+        <div class="table-responsive">
+          <table class="table align-items-center mb-0 table-centered">
+            <thead class="bg-gradient-light">
+              <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                  ID
+                </th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                  Tag Name
+                </th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for tag in tag_list %}
+                <tr>
+                  <td>{{ tag.id }}</td>
+
+                  <td class="font-weight-bold text-dark">
+                    {{ tag.name }}
+                  </td>
+
+                  <td>
+                    <a href="{% url 'todo:tag-update' tag.id %}"
+                       class="btn btn-primary"
+                       style="font-size: 0.95rem; font-weight: 550; margin-top: 12px;">
+                      Edit
+                    </a>
+
+                    <a href="{% url 'todo:tag-delete' tag.id %}"
+                       class="btn btn-primary"
+                       style="font-size: 0.95rem; font-weight: 550; margin-top: 12px;">
+                      Delete
+                    </a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="3" class="text-center text-muted py-4">
+                    No tags found.
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        {% include "includes/pagination.html" %}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock content %}

@@ -19,11 +19,11 @@ app_name = "todo"
 urlpatterns = [
     path("", index, name="index"),
     #  Tasks
-    path(
-        "tasks/",
-        TaskListView.as_view(),
-        name="task-list"
-    ),
+    # path(
+    #     "tasks/",
+    #     TaskListView.as_view(),
+    #     name="task-list"
+    # ),
     path(
         "tasks/create/",
         TaskCreateView.as_view(),
