@@ -58,20 +58,20 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     form_class = TaskForm
-    template_name = "todo/task_detail.html"
+    template_name = "todo/task_form.html"
     success_url = reverse_lazy("todo:task-list")
 
 
 class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     form_class = TaskForm
-    template_name = "todo/task_detail.html"
+    template_name = "todo/task_form.html"
     success_url = reverse_lazy("todo:task-list")
 
 
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
-    template_name = "todo/task_detail.html"
+    template_name = "todo/task_confirm_delete.html"
     success_url = reverse_lazy("todo:task-list")
 
 
@@ -111,7 +111,7 @@ class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Tag
-    template_name = "todo/tag_form.html"
+    template_name = "todo/tag_confirm_delete.html"
     success_url = reverse_lazy("todo:tag-list")
 
 
