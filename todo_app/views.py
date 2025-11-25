@@ -120,4 +120,4 @@ def toggle_status(request, pk):
     task = Task.objects.get(pk=pk)
     task.is_done = not task.is_done
     task.save()
-    return redirect("todo:task-list")
+    return redirect("todo:index")

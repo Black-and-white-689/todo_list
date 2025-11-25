@@ -35,7 +35,7 @@
                     <p class="mb-1"><strong>Created:</strong> {{ task.created_at|date:"Y-m-d H:i" }}</p>
 
                     {% if task.deadline %}
-                        <p class="mb-1"><strong>Deadline:</strong> {{ task.deadline|date:"Y-m-d H:i" }}</p>
+                        <p class="mb-1"><strong>Deadline:</strong> {{ task.deadline|date:"d M Y" }}</p>
                     {% endif %}
 
                     <p class="mb-3">
