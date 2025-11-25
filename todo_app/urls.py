@@ -13,7 +13,7 @@ from .views import (
 )
 
 
-app_name = "todo_app"
+app_name = "todo"
 
 
 urlpatterns = [
@@ -39,4 +39,21 @@ urlpatterns = [
         TaskDeleteView.as_view(),
         name="task-delete"
     ),
+    # Tags
+    path(
+        "tags/",
+        TagListView.as_view(),
+        name="tag-list"),
+    path(
+        "tags/create/",
+        TagCreateView.as_view(),
+        name="tag-create"),
+    path(
+        "tags/<int:pk>/update/",
+        TagUpdateView.as_view(),
+        name="tag-update"),
+    path(
+        "tags/<int:pk>/delete/",
+        TagDeleteView.as_view(),
+        name="tag-delete"),
 ]

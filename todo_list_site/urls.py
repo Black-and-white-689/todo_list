@@ -9,7 +9,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("todo_app.urls", namespace="todo_app")),
+    path("", include("todo_app.urls", namespace="todo")),
     path("accounts/", include("django.contrib.auth.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
