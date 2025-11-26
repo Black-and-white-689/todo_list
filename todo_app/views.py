@@ -2,11 +2,11 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.urls import reverse_lazy
 
-from django.views import generic
+from django.views import generic, View
 
 from .models import Task, Tag
 
@@ -115,9 +115,9 @@ class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("todo:tag-list")
 
 
-@login_required
-def toggle_status(request, pk):
-    task = Task.objects.get(pk=pk)
-    task.is_done = not task.is_done
-    task.save()
-    return redirect("todo:index")
+class ToggleStatusView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        task.is_done = not task.is_done
+        task.save()
+        return redirect("todo:index")
